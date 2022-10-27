@@ -13,6 +13,7 @@ public class GlobalException extends  RuntimeException implements Supplier<Error
 
     @Override
     public ErrorCode get() {
+
         return errorCode;
     }
 }

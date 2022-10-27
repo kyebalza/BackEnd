@@ -3,6 +3,7 @@ package com.sparta.clone.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
@@ -14,5 +15,16 @@ public class ResponseDto<T> {
     public static <T> ResponseDto<T> success(T data) {
 
         return new ResponseDto<>(true, data, null);
+    }
+    public static <T> ResponseDto<T> fail(Integer httpStatus, String message, String detail){
+        return new ResponseDto<>(false, null, new Error(httpStatus, message, detail));
+    }
+
+    @Getter
+    @AllArgsConstructor
+    static class Error{
+        private Integer httpStatus;
+        private String message;
+        private String detail;
     }
 }

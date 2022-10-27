@@ -13,7 +13,6 @@ import com.sparta.clone.repository.RefreshTokenRepository;
 import com.sparta.clone.security.jwt.JwtUtil;
 import com.sparta.clone.security.jwt.TokenDto;
 import com.sparta.clone.utils.ValidateCheck;
-import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
