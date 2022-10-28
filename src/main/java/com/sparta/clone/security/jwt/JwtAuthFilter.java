@@ -43,8 +43,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
-    public void setAuthentication(String email) {
-        Authentication authentication = jwtUtil.createAuthentication(email);
+    public void setAuthentication(String username) {
+        Authentication authentication = jwtUtil.createAuthentication(username);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
