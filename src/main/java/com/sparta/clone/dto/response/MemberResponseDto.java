@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MemberResponseDto {
     private String username;
+    private String profileImg;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }

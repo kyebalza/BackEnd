@@ -52,10 +52,12 @@ public class MemberService {
         return ResponseEntity.ok().body(ResponseDto.success(
                 MemberResponseDto.builder()
                         .username(member.getUsername())
+                        .profileImg(member.getProfileImg())
                         .createdAt(member.getCreatedAt())
                         .modifiedAt(member.getModifiedAt())
                         .build()
         ));
+
     }
 
     public void usernameDuplicateCheck(MemberRequestDto memberReqDto) {
