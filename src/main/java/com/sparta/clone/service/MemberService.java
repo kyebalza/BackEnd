@@ -7,6 +7,7 @@ import com.sparta.clone.domain.RefreshToken;
 import com.sparta.clone.dto.ResponseDto;
 import com.sparta.clone.dto.request.LoginRequestDto;
 import com.sparta.clone.dto.request.MemberRequestDto;
+import com.sparta.clone.dto.response.LoginResponseDto;
 import com.sparta.clone.dto.response.MemberResponseDto;
 import com.sparta.clone.repository.MemberRepository;
 import com.sparta.clone.repository.RefreshTokenRepository;
@@ -47,6 +48,7 @@ public class MemberService {
         Member member = Member.builder()
                 .username(memberReqDto.getUsername())
                 .password(passwordEncoder.encode(memberReqDto.getPassword()))
+                .profileImg("https://mykeejaebucket.s3.ap-northeast-2.amazonaws.com/Pictures/9295961a-4020-4c94-8c49-3bd7ef0e62ac.png")
                 .build();
         memberRepository.save(member);
         return ResponseEntity.ok().body(ResponseDto.success(
@@ -69,7 +71,7 @@ public class MemberService {
 
     //로그인
     @Transactional
-    public ResponseEntity<ResponseDto<MemberResponseDto>> login(LoginRequestDto loginReqDto, HttpServletResponse response) {
+    public ResponseEntity<ResponseDto<LoginResponseDto>> login(LoginRequestDto loginReqDto, HttpServletResponse response) {
 
         Member member = validateCheck.isPresentMember(loginReqDto.getUsername());
 
@@ -95,7 +97,7 @@ public class MemberService {
         setHeader(response, tokenDto);
 
         return ResponseEntity.ok().body(ResponseDto.success(
-                MemberResponseDto.builder()
+                LoginResponseDto.builder()
                         .username(member.getUsername())
                         .createdAt(member.getCreatedAt())
                         .modifiedAt(member.getModifiedAt())

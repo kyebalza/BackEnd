@@ -30,7 +30,6 @@ public class Member extends BaseTimeEntity {
     private String password;
 
     @Column(nullable = false)
-    @ColumnDefault("https://mykeejaebucket.s3.ap-northeast-2.amazonaws.com/Pictures/9295961a-4020-4c94-8c49-3bd7ef0e62ac.png")
     private String profileImg;
 
 

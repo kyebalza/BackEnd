@@ -4,6 +4,7 @@ package com.sparta.clone.controller;
 import com.sparta.clone.dto.ResponseDto;
 import com.sparta.clone.dto.request.LoginRequestDto;
 import com.sparta.clone.dto.request.MemberRequestDto;
+import com.sparta.clone.dto.response.LoginResponseDto;
 import com.sparta.clone.dto.response.MemberResponseDto;
 import com.sparta.clone.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class MemberController {
 
     //로그인
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto<MemberResponseDto>> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse httpServletResponse){
+    public ResponseEntity<ResponseDto<LoginResponseDto>> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse httpServletResponse){
         return memberService.login(loginRequestDto, httpServletResponse);
     }
 
