@@ -18,12 +18,15 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+    @Column(nullable = false)
+    private Long postId;
 
     @Column(nullable = false)
     private String postImgUrl;
+
+    public Photo(String photoImgUrl, Long postId){
+        this.postImgUrl = photoImgUrl;
+        this.postId = postId;
+    }
 
 }
