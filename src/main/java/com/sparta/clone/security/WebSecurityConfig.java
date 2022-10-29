@@ -64,8 +64,8 @@ public class WebSecurityConfig {
                 .antMatchers("/api/signup").permitAll()
                 .antMatchers( "/api/login").permitAll()
 
-                .antMatchers(HttpMethod.GET, "/product/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/product/{productId}/comment/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/post/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/post/{postId}/comment/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
