@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostResponseDto {
+
     private String content;
     private List<PhotoResponseDto> postImgUrl;
 }

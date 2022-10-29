@@ -1,5 +1,6 @@
 package com.sparta.clone.dto.response;
 
+import com.sparta.clone.domain.Photo;
 import com.sparta.clone.domain.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -20,7 +22,7 @@ public class AllPostResponseDto {
 
     private String content;
 
-    private String postImgUrl;
+    private List<PhotoResponseDto> postImgUrl;
 
     private LocalDateTime createdAt;
 
@@ -30,7 +32,6 @@ public class AllPostResponseDto {
         this.id = post.getId();
         this.nickname = post.getMember().getUsername();
         this.content = post.getContent();
-        this.postImgUrl = post.getImgUrl();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
     }

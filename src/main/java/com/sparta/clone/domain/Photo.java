@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.swing.plaf.metal.MetalIconFactory;
+import java.util.List;
 
 @Entity
 @Builder
