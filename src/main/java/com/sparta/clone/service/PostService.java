@@ -10,6 +10,7 @@ import com.sparta.clone.domain.Photo;
 import com.sparta.clone.domain.Post;
 import com.sparta.clone.dto.ResponseDto;
 import com.sparta.clone.dto.request.PostRequestDto;
+import com.sparta.clone.dto.response.AllPostResponseDto;
 import com.sparta.clone.dto.response.PhotoResponseDto;
 import com.sparta.clone.dto.response.PostResponseDto;
 import com.sparta.clone.repository.PhotoRepository;
@@ -19,12 +20,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -81,5 +84,17 @@ public class PostService {
                         .postImgUrl(photoResponseDto)
                         .build()
         );
+    }
+    @Transactional(readOnly = true)
+    //게시글을 전부 가져와서 dto로 변환 후 반환
+    public List<AllPostResponseDto> readAll(){
+
+        List<Post> postList = postRepository.findAll();
+
+        List<AllPostResponseDto> postResponseDtoList = postList.stream()
+                .map(post -> new AllPostResponseDto(post))
+                .collect(Collectors.toList()) ;
+
+        return postResponseDtoList;
     }
 }
