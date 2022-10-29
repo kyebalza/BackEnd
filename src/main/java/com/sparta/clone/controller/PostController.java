@@ -2,15 +2,13 @@ package com.sparta.clone.controller;
 
 import com.sparta.clone.dto.ResponseDto;
 import com.sparta.clone.dto.request.PostRequestDto;
+import com.sparta.clone.dto.response.AllPostResponseDto;
 import com.sparta.clone.dto.response.PostResponseDto;
 import com.sparta.clone.security.user.UserDetailsImpl;
 import com.sparta.clone.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -27,5 +25,12 @@ public class PostController {
                                                                     @RequestPart(value = "post") @Valid PostRequestDto postRequestDto,
                                                                     @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
         return postService.createPost(multipartFile, postRequestDto, userDetails.getMember());
+    }
+    @GetMapping("/post")
+    public ResponseDto<?> getAll(){
+
+        List<AllPostResponseDto> resDtos = postService.readAll();
+
+        return new ResponseDto<>(true,resDtos,null);
     }
 }
