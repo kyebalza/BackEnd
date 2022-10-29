@@ -61,8 +61,8 @@ public class WebSecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/signup").permitAll()
-                .antMatchers( "/login").permitAll()
+                .antMatchers("/api/signup").permitAll()
+                .antMatchers( "/api/login").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/product/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/product/{productId}/comment/**").permitAll()
