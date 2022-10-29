@@ -2,10 +2,11 @@ package com.sparta.clone.dto;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
-@Getter
+
+@Data
 @AllArgsConstructor
 public class ResponseDto<T> {
     private boolean success;

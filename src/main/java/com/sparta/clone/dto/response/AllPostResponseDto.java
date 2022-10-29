@@ -30,7 +30,7 @@ public class AllPostResponseDto {
         this.id = post.getId();
         this.nickname = post.getMember().getUsername();
         this.content = post.getContent();
-        this.postImgUrl = post.getImgUrl();
+//        this.postImgUrl = post.getImgUrl();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
     }
