@@ -28,5 +28,4 @@ public class Photo {
         this.postImgUrl = photoImgUrl;
         this.postId = postId;
     }
-
 }
