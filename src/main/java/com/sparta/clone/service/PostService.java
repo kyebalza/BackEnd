@@ -206,8 +206,10 @@ public class PostService {
 
         checkOwner(post, userDetailsImpl.getMember().getId());
         //댓글 삭제
-        commentRepository.deleteAllByPostId(post);
+        commentRepository.deleteAllByPostId(postId);
         postLikesRepository.deleteLikesByPost(post);
+
+        photoRepository.deleteAllByPostId(postId);
 
         //게시글 삭제
         postRepository.deleteById(postId);//게시물을 먼저 삭제안한이유
