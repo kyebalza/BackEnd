@@ -160,10 +160,10 @@ public class PostService {
         return ResponseDto.success(new AllPostResponseDto(post));
     }
 
-
+    //
     //게시글 삭제
     @Transactional
-    public ResponseDto<?> deletePost(Long postId, UserDetailsImpl userDetailsImpl){
+    public ResponseDto<String> deletePost(Long postId, UserDetailsImpl userDetailsImpl){
         Post post = postRepository.findById(postId).orElseThrow(
                 ()->new IllegalArgumentException("해당 아이디를 가진 게시글이 존재하지 않습니다.")
         );

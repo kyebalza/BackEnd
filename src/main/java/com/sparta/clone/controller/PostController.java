@@ -32,7 +32,7 @@ public class PostController {
     @GetMapping("/post")
     public ResponseDto<?> getAll(){
 
-        List<AllPostResponseDto> resDtos = postService.readAll();
+                List<AllPostResponseDto> resDtos = postService.readAll();
 
         return new ResponseDto<>(true,resDtos,null);
     }
@@ -53,7 +53,7 @@ public class PostController {
 
 
     @DeleteMapping("/post/{postId}")
-    public ResponseDto<?> deletePost(@PathVariable Long postId,
+    public ResponseDto<String> deletePost(@PathVariable Long postId,
                                      @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
         return postService.deletePost(postId, userDetailsImpl);
     }
