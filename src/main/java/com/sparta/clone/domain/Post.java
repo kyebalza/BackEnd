@@ -7,6 +7,10 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Builder
@@ -28,8 +32,9 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
-    public Post(Long Id) {
-        this.Id = Id;
+    public Post(Long id) {
+
+        this.id = id;
     }
 
     @OneToMany(mappedBy = "post",fetch = EAGER)

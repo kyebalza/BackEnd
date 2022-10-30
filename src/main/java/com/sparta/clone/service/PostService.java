@@ -70,10 +70,8 @@ public class PostService {
                 photoRepository.save(photo);
 
                 //추가
-
             }
         }
-
         /*
         * 확인용
         * */
@@ -184,6 +182,4 @@ public class PostService {
             throw new IllegalArgumentException("회원님이 작성한 글이 아닙니다.");
         }
     }
-
-
 }
