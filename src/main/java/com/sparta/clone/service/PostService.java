@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -215,6 +216,48 @@ public class PostService {
         postRepository.deleteById(postId);//게시물을 먼저 삭제안한이유
         return ResponseDto.success("게시글이 삭제되었습니다");
     }
+    //나의 게시글 전체 조회
+    @Transactional(readOnly = true)
+    public ResponseDto<?> getMyPost(Long id){
+        List<Post> postList = postRepository.findAllById(id);
+        List<MyPostResponseDto> myPostResponseDtoList = new ArrayList<>();
+        for(Post post : postList){
+
+            Long postId = post.getId();//게시글 번호
+            Long memberId = post.getMember().getId();//맴버 번호
+            //좋아요
+            Long likeCnt = likesRepository.countByPostId(postId);//좋아요 수
+            Optional<Likes> likes = likesRepository.findByPostIdAndMemberId(postId, memberId);//좋아요 여부
+            boolean likeCheck;
+            if (likes.isPresent()){
+                likeCheck = true;
+            }else {
+                likeCheck = false;
+            }
+            //댓글 수
+            Long CommentCnt = commentRepository.countByPostId(postId);
+
+
+            ////////////////////////////////////////
+            MyPostResponseDto myPostResponseDto =
+                    MyPostResponseDto.builder()
+                            .id(post.getId())
+                            .content(post.getContent())
+                            .nickname(post.getMember().getUsername())
+                            .createdAt(post.getCreatedAt())
+                            .modifiedAt(post.getModifiedAt())
+                            .CommentCnt(CommentCnt)
+                            .likeCheck(likeCheck)
+                            .likeCnt(likeCnt)
+                            .postImgUrl(post.getPhotos()
+                                    .stream()
+                                    .map(Photo::getPostImgUrl)
+                                    .collect(Collectors.toList()))
+                            .build();
+            myPostResponseDtoList.add(myPostResponseDto);
+        }
+        return ResponseDto.success(myPostResponseDtoList);
+    }
 
 
     private void checkOwner(Post post, Long memberId){
@@ -222,4 +265,6 @@ public class PostService {
             throw new IllegalArgumentException("회원님이 작성한 글이 아닙니다.");
         }
     }
+
+
 }
