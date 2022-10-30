@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 
 
+
 @Data
 @AllArgsConstructor
 public class ResponseDto<T> {
@@ -21,7 +22,7 @@ public class ResponseDto<T> {
         return new ResponseDto<>(false, null, new Error(httpStatus, message, detail));
     }
 
-    @Getter
+    @Data
     @AllArgsConstructor
     static class Error{
         private Integer httpStatus;

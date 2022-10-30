@@ -2,16 +2,16 @@ package com.sparta.clone.dto.response;
 
 import com.sparta.clone.domain.CommentLike;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class CommentLikeResDto {
-    private Boolean likeCheck;
-    private Long commentlikeCnt;
+    private Long commentId;
+
+    private boolean likeCheck;
 
     public CommentLikeResDto(CommentLike commentLike){
-//        this.likeCheck = commentLike.getLikeCheck();
-        this.commentlikeCnt = commentLike.getCommentLikeCnt();
 
+        this.commentId = commentLike.getComment().getId();
+        this.likeCheck = commentLike.;
     }
 }

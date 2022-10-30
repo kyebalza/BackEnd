@@ -1,5 +1,6 @@
 package com.sparta.clone.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,30 +14,19 @@ public class CommentLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @Column(nullable = false)
-    private boolean likeCheck;
-
-    @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentLikeCnt;
-
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)//null 값이 가능
-    @JoinColumn(name = "member_id",nullable = false)
-    private Member member;
-
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "comment_id", nullable = false)
+    @JoinColumn(name = "post_id")
+    @ManyToOne
     private Comment comment;
 
-    public CommentLike(Member member, Comment comment, Boolean likeCheck, Long commentLikeCnt){
-        this.member = member;
+    @JsonIgnoreProperties({"postList"}) //post -> user -> likesList -> user -> postList 무한 참조 막기 위함
+    @JoinColumn(name = "user_id")
+    @ManyToOne
+    private Member member;
+
+    public CommentLike(Comment comment, Member member) {
         this.comment = comment;
-        this.likeCheck = likeCheck;
-        this.commentLikeCnt = getCommentLikeCnt();
+        this.member = member;
     }
-//
-//    public Boolean getLikeCheck() {
-//    }
 }
