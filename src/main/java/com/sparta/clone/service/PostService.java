@@ -196,8 +196,7 @@ public class PostService {
         return ResponseDto.success(new AllPostResponseDto(post));
     }
 
-    //
-    //게시글 삭제
+
     @Transactional
     public ResponseDto<String> deletePost(Long postId, UserDetailsImpl userDetailsImpl){
         Post post = postRepository.findById(postId).orElseThrow(
@@ -208,9 +207,10 @@ public class PostService {
         //댓글 삭제
         commentRepository.deleteAllByPostId(post);
         postLikesRepository.deleteLikesByPost(post);
-
+        //사진 삭제
+        photoRepository.deleteAllByPost_id(postId);
         //게시글 삭제
-        postRepository.deleteById(postId);//게시물을 먼저 삭제안한이유
+        postRepository.delete(post);//게시물을 먼저 삭제안한이유
         return ResponseDto.success("게시글이 삭제되었습니다");
     }
 
