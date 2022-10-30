@@ -9,10 +9,7 @@ import com.sparta.clone.domain.*;
 import com.sparta.clone.dto.ResponseDto;
 import com.sparta.clone.dto.request.PostRequestDto;
 import com.sparta.clone.dto.response.*;
-import com.sparta.clone.repository.CommentRepository;
-import com.sparta.clone.repository.PostLikesRepository;
-import com.sparta.clone.repository.PhotoRepository;
-import com.sparta.clone.repository.PostRepository;
+import com.sparta.clone.repository.*;
 import com.sparta.clone.security.user.UserDetailsImpl;
 import com.sparta.clone.utils.CommonUtils;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +34,8 @@ public class PostService {
 
     private final CommentRepository commentRepository;
     private final PostLikesRepository postLikesRepository;
+
+    private final LikesRepository likesRepository;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
@@ -94,13 +93,50 @@ public class PostService {
     //게시글 전체 조회
     public List<AllPostResponseDto> readAll(){
 
+//        List<Post> postList = postRepository.findAll();
+
+//        List<AllPostResponseDto> postResponseDtoList = postList.stream()
+//                .map(post -> new AllPostResponseDto(post))
+//                .collect(Collectors.toList()) ;
+//        return postResponseDtoList;
         List<Post> postList = postRepository.findAll();
+        List<AllPostResponseDto> allPostResponseDtoList = new ArrayList<>();
+        for(Post post : postList){
 
-        List<AllPostResponseDto> postResponseDtoList = postList.stream()
-                .map(post -> new AllPostResponseDto(post))
-                .collect(Collectors.toList()) ;
+            Long postId = post.getId();//게시글 번호
+            Long memberId = post.getMember().getId();//맴버 번호
+            //좋아요
+            Long likeCnt = likesRepository.countByPostId(postId);//좋아요 수
+            Optional<Likes> likes = likesRepository.findByPostIdAndMemberId(postId, memberId);//좋아요 여부
+            boolean likeCheck;
+            if (likes.isPresent()){
+                likeCheck = true;
+            }else {
+                likeCheck = false;
+            }
+            //댓글 수
+            Long CommentCnt = commentRepository.countByPostId(postId);
 
-        return postResponseDtoList;
+
+            ////////////////////////////////////////
+            AllPostResponseDto allPostResponseDto =
+                    AllPostResponseDto.builder()
+                            .id(post.getId())
+                            .content(post.getContent())
+                            .nickname(post.getMember().getUsername())
+                            .createdAt(post.getCreatedAt())
+                            .modifiedAt(post.getModifiedAt())
+                            .CommentCnt(CommentCnt)
+                            .likeCheck(likeCheck)
+                            .likeCnt(likeCnt)
+                            .postImgUrl(post.getPhotos()
+                                    .stream()
+                                    .map(Photo::getPostImgUrl)
+                                    .collect(Collectors.toList()))
+                            .build();
+            allPostResponseDtoList.add(allPostResponseDto);
+        }
+        return allPostResponseDtoList;
     }
     //상제 게시글 조회
     @Transactional(readOnly = true)
