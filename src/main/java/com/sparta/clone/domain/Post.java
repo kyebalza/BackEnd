@@ -33,7 +33,6 @@ public class Post extends BaseTimeEntity {
     private String content;
 
     public Post(Long id) {
-
         this.id = id;
     }
 

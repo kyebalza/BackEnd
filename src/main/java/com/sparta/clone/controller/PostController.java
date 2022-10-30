@@ -28,7 +28,7 @@ public class PostController {
         return postService.createPost(multipartFile, postRequestDto, userDetailsImpl.getMember());
     }
 
-    //전체 게시글 삭제
+    //전체 게시글 조회
     @GetMapping("/post")
     public ResponseDto<?> getAll(){
 
@@ -51,11 +51,10 @@ public class PostController {
         return postService.updatePost(postId, userDetailsImpl, postRequestDto);
     }
 
-    //게시글 삭제
+
     @DeleteMapping("/post/{postId}")
     public ResponseDto<?> deletePost(@PathVariable Long postId,
                                      @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
         return postService.deletePost(postId, userDetailsImpl);
     }
-
 }
