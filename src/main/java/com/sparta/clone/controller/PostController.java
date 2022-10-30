@@ -51,11 +51,10 @@ public class PostController {
         return postService.updatePost(postId, userDetailsImpl, postRequestDto);
     }
 
-    //게시글 삭제
+
     @DeleteMapping("/post/{postId}")
     public ResponseDto<?> deletePost(@PathVariable("postId") Long postId,
                                      @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
         return postService.deletePost(postId, userDetailsImpl);
     }
-
 }

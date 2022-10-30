@@ -7,6 +7,10 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Builder
@@ -18,7 +22,7 @@ public class Post extends BaseTimeEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column
+    @Column//(name="post_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -32,13 +36,16 @@ public class Post extends BaseTimeEntity {
         this.id = id;
     }
 
+    @OneToMany(mappedBy = "post",fetch = EAGER)
+    private List<Photo> photos= new ArrayList<>();
+
     public void updatePost(String content) {
         this.content = content;
     }
+
     public boolean checkOwnerByMemberId(Long memberId) {
         //this. 이 게시물 주인의 id  //인자로 받는 memberId
         return this.member.getId().equals(memberId);
 
     }
-
 }

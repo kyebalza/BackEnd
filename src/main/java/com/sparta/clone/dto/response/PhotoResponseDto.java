@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PhotoResponseDto {
-    private String postImgUrl;
 
+    private String postImgUrl;
 }

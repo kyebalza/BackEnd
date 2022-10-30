@@ -1,6 +1,7 @@
 package com.sparta.clone.dto.response;
 
 import com.sparta.clone.domain.Comment;
+import com.sparta.clone.domain.Photo;
 import com.sparta.clone.domain.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 @Builder
 @NoArgsConstructor
@@ -20,9 +23,9 @@ public class OnePostResponseDto {
 
     private String content;
 
-    private List<PhotoResponseDto> postImgUrl;
+    private List<String> postImgUrl;
 
-    private List<CommentResponseDto> commentResponseDtoList;
+    private List<CommentResponseDto> comments;
 
     private LocalDateTime createdAt;
 
@@ -32,7 +35,10 @@ public class OnePostResponseDto {
         this.Id = post.getId();
         this.nickname = post.getMember().getUsername();
         this.content = post.getContent();
-//        this.imgUrl = post.getImgUrl();
+        this.postImgUrl = post.getPhotos()
+                .stream()
+                .map(Photo::getPostImgUrl)
+                .collect(Collectors.toList());
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
     };
