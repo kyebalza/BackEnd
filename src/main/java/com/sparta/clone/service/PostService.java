@@ -62,10 +62,15 @@ public class PostService {
                         .withCannedAcl(CannedAccessControlList.PublicRead));
                 imgurl = amazonS3Client.getUrl(bucketName, fileName).toString();
 
-                Photo photo = new Photo(imgurl, post.getId());
+                Photo photo = new Photo(imgurl, post);
+//                post.addPhoto(photo);
                 photoRepository.save(photo);
+
+                //추가
+
             }
         }
+
         /*
         * 확인용
         * */

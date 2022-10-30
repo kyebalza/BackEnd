@@ -18,15 +18,21 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    @Column(nullable = false)
-    private Long postId;
+//    @Column(nullable = false)
+//    private Long postId;
 
     @Column(nullable = false)
     private String postImgUrl;
 
-    public Photo(String photoImgUrl, Long postId){
+    @ManyToOne
+    @JoinColumn(name="post_id")
+    private Post post;
+
+
+    public Photo(String photoImgUrl, Post post){
         this.postImgUrl = photoImgUrl;
-        this.postId = postId;
+        this.post = post;
+
     }
 
 }
