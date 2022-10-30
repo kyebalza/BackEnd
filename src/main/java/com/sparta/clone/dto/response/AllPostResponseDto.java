@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -22,7 +23,7 @@ public class AllPostResponseDto {
 
     private String content;
 
-    private List<PhotoResponseDto> postImgUrl;
+    private List<String> postImgUrl;
 
     private LocalDateTime createdAt;
 
@@ -32,6 +33,11 @@ public class AllPostResponseDto {
         this.id = post.getId();
         this.nickname = post.getMember().getUsername();
         this.content = post.getContent();
+        this.postImgUrl=post.getPhotos()
+                .stream()
+                .map(Photo::getPostImgUrl)
+                .collect(Collectors.toList());
+        //photo 있는 url을 가져와서 list에 담아줘라
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
     }
