@@ -144,6 +144,7 @@ public class PostService {
     //게시글 수정
     @Transactional
     public ResponseDto<?> updatePost(Long postId, UserDetailsImpl userDetailsImpl, PostRequestDto postRequestDto) {
+
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("해당 아이디를 가진 게시글이 존재하지 않습니다.")
         );
@@ -159,26 +160,27 @@ public class PostService {
     }
     //게시글 삭제
     @Transactional
-    public ResponseDto<?> deletePost(Long postId, UserDetailsImpl userDetailsImpl){
+    public ResponseDto<String> deletePost(Long postId, UserDetailsImpl userDetailsImpl){
         Post post = postRepository.findById(postId).orElseThrow(
                 ()->new IllegalArgumentException("해당 아이디를 가진 게시글이 존재하지 않습니다.")
         );
 
         checkOwner(post, userDetailsImpl.getMember().getId());
         //댓글 삭제
-        commentRepository.deleteAllByPostId(post);
-        postLikesRepository.deleteLikesByPost(post);
+//        commentRepository.deleteAllByP    ostId(post.getId());
+//        postLikesRepository.deleteLikesByPost(post);
         //게시글 삭제
         postRepository.deleteById(postId);//게시물을 먼저 삭제안한이유
         return ResponseDto.success("게시글이 삭제되었습니다");
     }
 
 
+    //나의 게시글 조회
+
     private void checkOwner(Post post, Long memberId){
         if(!post.checkOwnerByMemberId(memberId)){
             throw new IllegalArgumentException("회원님이 작성한 글이 아닙니다.");
         }
     }
-
 
 }

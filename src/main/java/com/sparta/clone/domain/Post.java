@@ -18,7 +18,8 @@ public class Post extends BaseTimeEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long Id;
+    @Column
+    private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -27,8 +28,8 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
-    public Post(Long Id) {
-        this.Id = Id;
+    public Post(Long id) {
+        this.id = id;
     }
 
     public void updatePost(String content) {
