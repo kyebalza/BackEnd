@@ -23,10 +23,13 @@ public class CommentResponseDto {
 
     private LocalDateTime createdAt;
 
+    private LocalDateTime modifiedAt;
+
     public CommentResponseDto(Comment comment){
         this.id = comment.getId();
         this.comment = comment.getComment();
         this.author = comment.getMember().getUsername();
         this.createdAt = comment.getCreatedAt();
+        this.modifiedAt = comment.getModifiedAt();
     }
 }

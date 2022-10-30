@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PhotoResponseDto {
-
-    private String postImgUrl;
+public class PostLikeResponseDto {
+    private boolean likeCheck;
+    private Long likeCnt;
 }
