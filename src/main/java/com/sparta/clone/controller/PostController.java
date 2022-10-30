@@ -20,12 +20,15 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
+    //게시글 작성
     @PostMapping("/post")
     private ResponseDto<PostResponseDto> createPost(@RequestPart(required = false, value = "file") List<MultipartFile> multipartFile,
                                                                     @RequestPart(value = "post") @Valid PostRequestDto postRequestDto,
-                                                                    @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
-        return postService.createPost(multipartFile, postRequestDto, userDetails.getMember());
+                                                                    @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) throws IOException{
+        return postService.createPost(multipartFile, postRequestDto, userDetailsImpl.getMember());
     }
+
+    //전체 게시글 삭제
     @GetMapping("/post")
     public ResponseDto<?> getAll(){
 
@@ -33,4 +36,26 @@ public class PostController {
 
         return new ResponseDto<>(true,resDtos,null);
     }
+    //상세 게시글 조회
+    @GetMapping("post/{postId}")
+    public ResponseDto<?> getPostOne(@PathVariable Long postId,
+                                     @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
+        return postService.getPostOne(postId, userDetailsImpl.getMember().getId());
+    }
+
+    //게시글 수정
+    @PutMapping("/post/{postId}")
+    public ResponseDto<?>updatePost(@PathVariable Long postId,
+                                    @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+                                    @RequestBody PostRequestDto postRequestDto){
+        return postService.updatePost(postId, userDetailsImpl, postRequestDto);
+    }
+
+    //게시글 삭제
+    @DeleteMapping("/post/{postId}")
+    public ResponseDto<?> deletePost(@PathVariable Long postId,
+                                     @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
+        return postService.deletePost(postId, userDetailsImpl);
+    }
+
 }
