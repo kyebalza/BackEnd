@@ -18,7 +18,7 @@ public class Post extends BaseTimeEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long id;
+    private Long Id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -26,5 +26,18 @@ public class Post extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String content;
+
+    public Post(Long Id) {
+        this.Id = Id;
+    }
+
+    public void updatePost(String content) {
+        this.content = content;
+    }
+    public boolean checkOwnerByMemberId(Long memberId) {
+        //this. 이 게시물 주인의 id  //인자로 받는 memberId
+        return this.member.getId().equals(memberId);
+
+    }
 
 }
