@@ -16,7 +16,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     //댓글 수 받아오기
     Long countByPostId(Long postId);
-    void deleteAllByPostId(Post post);
+    void deleteAllByPostId(Long postId);
 
 //    @Modifying
 //    @Query("delete from Comment c where c.post.id = :postId")

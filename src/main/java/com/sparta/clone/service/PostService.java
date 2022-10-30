@@ -197,20 +197,22 @@ public class PostService {
     }
 
 
+    //게시글 삭제
     @Transactional
-    public ResponseDto<String> deletePost(Long postId, UserDetailsImpl userDetailsImpl){
+    public ResponseDto<?> deletePost(Long postId, UserDetailsImpl userDetailsImpl){
         Post post = postRepository.findById(postId).orElseThrow(
                 ()->new IllegalArgumentException("해당 아이디를 가진 게시글이 존재하지 않습니다.")
         );
 
         checkOwner(post, userDetailsImpl.getMember().getId());
         //댓글 삭제
-        commentRepository.deleteAllByPostId(post);
+        commentRepository.deleteAllByPostId(postId);
         postLikesRepository.deleteLikesByPost(post);
-        //사진 삭제
-        photoRepository.deleteAllByPost_id(postId);
+
+        photoRepository.deleteAllByPostId(postId);
+
         //게시글 삭제
-        postRepository.delete(post);//게시물을 먼저 삭제안한이유
+        postRepository.deleteById(postId);//게시물을 먼저 삭제안한이유
         return ResponseDto.success("게시글이 삭제되었습니다");
     }
 
