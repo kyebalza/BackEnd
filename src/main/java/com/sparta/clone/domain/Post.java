@@ -22,7 +22,7 @@ public class Post extends BaseTimeEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name="post_id")
+    @Column//(name="post_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
