@@ -1,14 +1,14 @@
 package com.sparta.clone.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Builder
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class CommentLike {
 
@@ -16,13 +16,13 @@ public class CommentLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "comment_id")
-    @ManyToOne
+    @JoinColumn(name = "comment_id",nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Comment comment;
 
-    @JsonIgnoreProperties({"commentList"}) //post -> user -> likesList -> user -> postList 무한 참조 막기 위함
-    @JoinColumn(name = "member_id")
-    @ManyToOne
+
+    @JoinColumn(name = "member_id",nullable = false)
+    @ManyToOne(fetch =FetchType.LAZY)
     private Member member;
 
     public CommentLike(Comment comment, Member member) {

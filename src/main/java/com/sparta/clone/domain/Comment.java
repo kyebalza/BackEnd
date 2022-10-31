@@ -14,6 +14,7 @@ public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//auto increment
+    @Column
     private Long id;
 
     @Column(nullable = false)
@@ -21,7 +22,6 @@ public class Comment extends BaseTimeEntity {
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "merber_id",nullable = false)
-
     private Member member;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)

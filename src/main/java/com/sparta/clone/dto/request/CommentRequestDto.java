@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CommentRequestDto {
 
-    private Long commentId;
-
     private String comment;
 
     public Comment toEntity(Member member, Post post){
