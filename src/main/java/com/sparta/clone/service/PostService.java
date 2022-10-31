@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +33,7 @@ public class PostService {
     private final PhotoRepository photoRepository;
 
     private final CommentRepository commentRepository;
+    private final CommentLikesRepository commentLikesRepository;
     private final PostLikesRepository postLikesRepository;
 
     private final LikesRepository likesRepository;
@@ -123,18 +123,18 @@ public class PostService {
             AllPostResponseDto allPostResponseDto =
                     AllPostResponseDto.builder()
                             .id(post.getId())
+                            .content(post.getContent())
                             .username(post.getMember().getUsername())
+                            .profileImg(post.getMember().getProfileImg())
+                            .createdAt(post.getCreatedAt())
+                            .modifiedAt(post.getModifiedAt())
+                            .CommentCnt(CommentCnt)
+                            .likeCheck(likeCheck)
+                            .likeCnt(likeCnt)
                             .postImgUrl(post.getPhotos()
                                     .stream()
                                     .map(Photo::getPostImgUrl)
                                     .collect(Collectors.toList()))
-
-                            .content(post.getContent())
-                            .likeCnt(likeCnt)
-                            .likeCheck(likeCheck)
-                            .CommentCnt(CommentCnt)
-                            .createdAt(post.getCreatedAt())
-                            .modifiedAt(post.getModifiedAt())
                             .build();
             allPostResponseDtoList.add(allPostResponseDto);
         }
@@ -156,11 +156,28 @@ public class PostService {
             likeCheck = false;
         }
         for (Comment comment : commentList) {
+
+            Long comment_id = comment.getId();//댓글 번호
+            Long member_id = comment.getMember().getId();//맴버 번호
+            boolean commentLikeCheck;//댓글 좋아요 여부
+
+            Long commentLikeCnt = commentLikesRepository.countByComment_Id(comment_id);//좋아요 수
+            Optional<CommentLike> commentLikes = commentLikesRepository.findByComment_IdAndMember_Id(comment_id, member_id);//좋아요 여부
+            if (commentLikes.isPresent()){
+                commentLikeCheck = true;
+            }else {
+                commentLikeCheck = false;
+            }
+
+
             commentResponseDtos.add(
                     CommentResponseDto.builder()
                             .id(comment.getId())
-                            .comments(comment.getComment())
-//
+                            .comment(comment.getComment())
+                            .profileImg(comment.getMember().getProfileImg())
+                            .username(comment.getMember().getUsername())
+                            .commentLikeCheck(commentLikeCheck)
+                            .commentLikeCnt(commentLikeCnt)
                             .createdAt(comment.getCreatedAt())
                             .modifiedAt(comment.getModifiedAt())
                             .build()
@@ -170,10 +187,11 @@ public class PostService {
                 OnePostResponseDto.builder()
                         .Id(post.getId())
                         .username(post.getMember().getUsername())
+                        .profileImg(post.getMember().getProfileImg())
                         .content(post.getContent())
                         .postImgUrl(post.getPhotos().stream().map(Photo::getPostImgUrl).collect(Collectors.toList()))
+                        .likeCnt(likeCnt)
                         .comments(commentResponseDtos)
-                        .likeCnt(cntLike)
                         .likeCheck(likeCheck)
                         .createdAt(post.getCreatedAt())
                         .modifiedAt(post.getModifiedAt())
@@ -195,7 +213,63 @@ public class PostService {
         //3.
         postRepository.save(post);
 
-        return ResponseDto.success(new AllPostResponseDto(post));
+
+
+        /////////////////////////////
+        //수정된 게시글 불러오기
+        Post updatePost = postRepository.findById(postId).orElseThrow();
+
+        List<Comment> commentList = commentRepository.findAllById(postId);
+        List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
+        Long likeCnt = postLikesRepository.countByPostId(postId);
+        Optional<Likes> likes = postLikesRepository.findByPostIdAndMemberId(postId, memberId);
+        boolean likeCheck;
+        if (likes.isPresent()) {
+            likeCheck = true;
+        } else {
+            likeCheck = false;
+        }
+        for (Comment comment : commentList) {
+
+            Long comment_id = comment.getId();//댓글 번호
+            Long member_id = comment.getMember().getId();//맴버 번호
+            boolean commentLikeCheck;//댓글 좋아요 여부
+
+            Long commentLikeCnt = commentLikesRepository.countByComment_Id(comment_id);//좋아요 수
+            Optional<CommentLike> commentLikes = commentLikesRepository.findByComment_IdAndMember_Id(comment_id, member_id);//좋아요 여부
+            if (commentLikes.isPresent()){
+                commentLikeCheck = true;
+            }else {
+                commentLikeCheck = false;
+            }
+
+
+            commentResponseDtos.add(
+                    CommentResponseDto.builder()
+                            .id(comment.getId())
+                            .comment(comment.getComment())
+                            .profileImg(comment.getMember().getProfileImg())
+                            .username(comment.getMember().getUsername())
+                            .commentLikeCheck(commentLikeCheck)
+                            .commentLikeCnt(commentLikeCnt)
+                            .createdAt(comment.getCreatedAt())
+                            .modifiedAt(comment.getModifiedAt())
+                            .build()
+            );
+        }
+
+        return ResponseDto.success(OnePostResponseDto.builder()
+                .Id(updatePost.getId())
+                .username(updatePost.getMember().getUsername())
+                .profileImg(updatePost.getMember().getProfileImg())
+                .content(updatePost.getContent())
+                .postImgUrl(updatePost.getPhotos().stream().map(Photo::getPostImgUrl).collect(Collectors.toList()))
+                .likeCnt(likeCnt)
+                .comments(commentResponseDtos)
+                .likeCheck(likeCheck)
+                .createdAt(updatePost.getCreatedAt())
+                .modifiedAt(updatePost.getModifiedAt())
+                .build());
     }
 
 
@@ -215,49 +289,7 @@ public class PostService {
 
         //게시글 삭제
         postRepository.deleteById(postId);//게시물을 먼저 삭제안한이유
-        return ResponseDto.success("게시글 삭제 성공");
-    }
-    //나의 게시글 전체 조회
-    @Transactional(readOnly = true)
-    public ResponseDto<?> getMyPost(Long id){
-        List<Post> postList = postRepository.findAllBymemberId(id);
-        List<MyPostResponseDto> myPostResponseDtoList = new ArrayList<>();
-        for(Post post : postList){
-
-            Long postId = post.getId();//게시글 번호
-            Long memberId = post.getMember().getId();//맴버 번호
-            //좋아요
-            Long likeCnt = likesRepository.countByPostId(postId);//좋아요 수
-            Optional<Likes> likes = likesRepository.findByPostIdAndMemberId(postId, memberId);//좋아요 여부
-            boolean likeCheck;
-            if (likes.isPresent()){
-                likeCheck = true;
-            }else {
-                likeCheck = false;
-            }
-            //댓글 수
-            Long CommentCnt = commentRepository.countByPostId(postId);
-
-
-            ////////////////////////////////////////
-            MyPostResponseDto myPostResponseDto =
-                    MyPostResponseDto.builder()
-                            .id(post.getId())
-                            .username(post.getMember().getUsername())
-                            .content(post.getContent())
-                            .postImgUrl(post.getPhotos()
-                                    .stream()
-                                    .map(Photo::getPostImgUrl)
-                                    .collect(Collectors.toList()))
-                            .CommentCnt(CommentCnt)
-                            .likeCnt(likeCnt)
-                            .likeCheck(likeCheck)
-                            .createdAt(post.getCreatedAt())
-                            .modifiedAt(post.getModifiedAt())
-                            .build();
-            myPostResponseDtoList.add(myPostResponseDto);
-        }
-        return ResponseDto.success(myPostResponseDtoList);
+        return ResponseDto.success("게시글이 삭제되었습니다");
     }
 
 
@@ -266,6 +298,4 @@ public class PostService {
             throw new IllegalArgumentException("회원님이 작성한 글이 아닙니다.");
         }
     }
-
-
 }

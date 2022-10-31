@@ -21,6 +21,7 @@ public class OnePostResponseDto {
 
     private String username;
 
+    private String profileImg;
     private String content;
 
     private List<String> postImgUrl;
@@ -30,9 +31,9 @@ public class OnePostResponseDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
+
     private Long likeCnt;
     private boolean likeCheck;
-    private Long CommentCnt;
     public OnePostResponseDto(Post post){
         this.Id = post.getId();
         this.username = post.getMember().getUsername();

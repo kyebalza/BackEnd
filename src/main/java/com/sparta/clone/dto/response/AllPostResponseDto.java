@@ -21,6 +21,8 @@ public class AllPostResponseDto {
 
     private String username;
 
+    private String profileImg;
+
     private String content;
 
     private List<String> postImgUrl;

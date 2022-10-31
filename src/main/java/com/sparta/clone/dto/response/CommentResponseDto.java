@@ -17,15 +17,24 @@ public class CommentResponseDto {
 
     private  Long id;
 
-    private String comments;
+    private String comment;
+
+    private String profileImg;
+    private String username;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
 
+
+    //추가
+    private boolean commentLikeCheck;
+    private Long commentLikeCnt;
+
     public CommentResponseDto(Comment comment){
         this.id = comment.getId();
-        this.comments = comment.getComment();
+        this.comment = comment.getComment();
+        this.username = comment.getMember().getUsername();
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();
     }

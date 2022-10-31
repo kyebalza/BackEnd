@@ -1,14 +1,13 @@
 package com.sparta.clone.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Builder
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class CommentLike {
 
@@ -16,17 +15,21 @@ public class CommentLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "comment_id",nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Comment comment;
-
-
+//    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)//null 값이 가능
+    @ManyToOne
     @JoinColumn(name = "member_id",nullable = false)
-    @ManyToOne(fetch =FetchType.LAZY)
     private Member member;
 
-    public CommentLike(Comment comment, Member member) {
-        this.comment = comment;
+//    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
+    @JoinColumn(name = "comment_id", nullable = false)
+    private Comment comment;
+
+    public CommentLike(Member member, Comment comment){
         this.member = member;
+        this.comment = comment;
     }
+//
+//    public Boolean getLikeCheck() {
+//    }
 }

@@ -1,17 +1,20 @@
 package com.sparta.clone.dto.request;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotBlank;
+import com.sparta.clone.domain.Comment;
+import com.sparta.clone.domain.CommentLike;
+import com.sparta.clone.domain.Member;
+import lombok.Data;
 
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class CommentLikeReqDto {
-    @NotBlank
-    private String commentId;
+
+    private Long comment_id;
+
+    //??
+//    private Long commentLikeCnt;
+
+//    public CommentLike toEntity(Member member, Comment comment){
+//        return new CommentLike(member,comment);
+//    }
 }
