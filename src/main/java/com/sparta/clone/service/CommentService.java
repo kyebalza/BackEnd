@@ -58,8 +58,7 @@ public class CommentService {
             commentResponseDtoList.add(
                     CommentResponseDto.builder()
                             .id(responseComment.getId())
-                            .comment(responseComment.getComment())
-                            .author(responseComment.getMember().getUsername())
+                            .comments(responseComment.getComment())
                             .createdAt(responseComment.getCreatedAt())
                             .build()
             );

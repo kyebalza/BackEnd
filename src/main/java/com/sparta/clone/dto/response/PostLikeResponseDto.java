@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostLikeResponseDto {
     private boolean likeCheck;
-    private Long postLikeCnt;
+    private Long likeCnt;
 }

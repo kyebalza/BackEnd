@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class OnePostResponseDto {
     private Long Id;
 
-    private String nickname;
+    private String username;
 
     private String content;
 
@@ -30,10 +30,12 @@ public class OnePostResponseDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
-
+    private Long likeCnt;
+    private boolean likeCheck;
+    private Long CommentCnt;
     public OnePostResponseDto(Post post){
         this.Id = post.getId();
-        this.nickname = post.getMember().getUsername();
+        this.username = post.getMember().getUsername();
         this.content = post.getContent();
         this.postImgUrl = post.getPhotos()
                 .stream()

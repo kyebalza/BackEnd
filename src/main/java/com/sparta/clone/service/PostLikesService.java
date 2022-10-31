@@ -58,7 +58,7 @@ public class PostLikesService {
         Long LikeCnt = likesRepository.countByPostId(Long.parseLong(postLikesRequestDto.getPostId()));
         return ResponseDto.success(
                 PostLikeResponseDto.builder()
-                        .postLikeCnt(LikeCnt)
+                        .likeCnt(LikeCnt)
                         .likeCheck(likeCheck)
                         .build()
         );

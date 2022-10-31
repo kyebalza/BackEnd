@@ -19,7 +19,7 @@ public class AllPostResponseDto {
 
     private Long id;
 
-    private String nickname;
+    private String username;
 
     private String content;
 
@@ -37,7 +37,7 @@ public class AllPostResponseDto {
     //Post타입에서 PostResDto타입으로 가져올꺼기 때문에  Post post를 인자로 받아준다.
     public AllPostResponseDto(Post post){
         this.id = post.getId();
-        this.nickname = post.getMember().getUsername();
+        this.username = post.getMember().getUsername();
         this.content = post.getContent();
         this.postImgUrl=post.getPhotos()
                 .stream()

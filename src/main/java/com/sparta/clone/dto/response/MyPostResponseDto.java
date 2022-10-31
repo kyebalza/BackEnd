@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class MyPostResponseDto {
     private Long id;
 
-    private String nickname;
+    private String username;
 
     private String content;
 
@@ -36,7 +36,7 @@ public class MyPostResponseDto {
 
     public MyPostResponseDto(Post post){
         this.id = post.getId();
-        this.nickname = post.getMember().getUsername();
+        this.username = post.getMember().getUsername();
         this.content = post.getContent();
         this.postImgUrl=post.getPhotos()
                 .stream()

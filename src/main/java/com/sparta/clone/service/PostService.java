@@ -123,17 +123,18 @@ public class PostService {
             AllPostResponseDto allPostResponseDto =
                     AllPostResponseDto.builder()
                             .id(post.getId())
-                            .content(post.getContent())
-                            .nickname(post.getMember().getUsername())
-                            .createdAt(post.getCreatedAt())
-                            .modifiedAt(post.getModifiedAt())
-                            .CommentCnt(CommentCnt)
-                            .likeCheck(likeCheck)
-                            .likeCnt(likeCnt)
+                            .username(post.getMember().getUsername())
                             .postImgUrl(post.getPhotos()
                                     .stream()
                                     .map(Photo::getPostImgUrl)
                                     .collect(Collectors.toList()))
+
+                            .content(post.getContent())
+                            .likeCnt(likeCnt)
+                            .likeCheck(likeCheck)
+                            .CommentCnt(CommentCnt)
+                            .createdAt(post.getCreatedAt())
+                            .modifiedAt(post.getModifiedAt())
                             .build();
             allPostResponseDtoList.add(allPostResponseDto);
         }
@@ -158,8 +159,8 @@ public class PostService {
             commentResponseDtos.add(
                     CommentResponseDto.builder()
                             .id(comment.getId())
-                            .comment(comment.getComment())
-                            .author(comment.getMember().getUsername())
+                            .comments(comment.getComment())
+//
                             .createdAt(comment.getCreatedAt())
                             .modifiedAt(comment.getModifiedAt())
                             .build()
@@ -168,12 +169,12 @@ public class PostService {
         return ResponseDto.success(
                 OnePostResponseDto.builder()
                         .Id(post.getId())
-                        .nickname(post.getMember().getUsername())
+                        .username(post.getMember().getUsername())
                         .content(post.getContent())
                         .postImgUrl(post.getPhotos().stream().map(Photo::getPostImgUrl).collect(Collectors.toList()))
-//                        .likeCnt(cntLike)
                         .comments(commentResponseDtos)
-//                        .likeCheck(likeCheck)
+                        .likeCnt(cntLike)
+                        .likeCheck(likeCheck)
                         .createdAt(post.getCreatedAt())
                         .modifiedAt(post.getModifiedAt())
                         .build()
@@ -214,7 +215,7 @@ public class PostService {
 
         //게시글 삭제
         postRepository.deleteById(postId);//게시물을 먼저 삭제안한이유
-        return ResponseDto.success("게시글이 삭제되었습니다");
+        return ResponseDto.success("게시글 삭제 성공");
     }
     //나의 게시글 전체 조회
     @Transactional(readOnly = true)
@@ -242,17 +243,17 @@ public class PostService {
             MyPostResponseDto myPostResponseDto =
                     MyPostResponseDto.builder()
                             .id(post.getId())
+                            .username(post.getMember().getUsername())
                             .content(post.getContent())
-                            .nickname(post.getMember().getUsername())
-                            .createdAt(post.getCreatedAt())
-                            .modifiedAt(post.getModifiedAt())
-                            .CommentCnt(CommentCnt)
-                            .likeCheck(likeCheck)
-                            .likeCnt(likeCnt)
                             .postImgUrl(post.getPhotos()
                                     .stream()
                                     .map(Photo::getPostImgUrl)
                                     .collect(Collectors.toList()))
+                            .CommentCnt(CommentCnt)
+                            .likeCnt(likeCnt)
+                            .likeCheck(likeCheck)
+                            .createdAt(post.getCreatedAt())
+                            .modifiedAt(post.getModifiedAt())
                             .build();
             myPostResponseDtoList.add(myPostResponseDto);
         }
