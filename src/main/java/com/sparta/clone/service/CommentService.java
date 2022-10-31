@@ -53,11 +53,14 @@ public class CommentService {
                 ()->new IllegalArgumentException("해당 아이디를 가진 댓글이 없습니다.")
         );
 
+
         checkOwner(comment, userDetailsImpl.getMember().getId());
 
         checkPostByPostId(comment, postId);
 
+        commentLikesRepository.deleteByComment_Id(commentId);
         commentRepository.deleteById(commentId);
+
 
         List<Comment> commentList = commentRepository.findAllById(postId);
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
