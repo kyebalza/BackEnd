@@ -219,7 +219,7 @@ public class PostService {
     //나의 게시글 전체 조회
     @Transactional(readOnly = true)
     public ResponseDto<?> getMyPost(Long id){
-        List<Post> postList = postRepository.findAllById(id);
+        List<Post> postList = postRepository.findAllBymemberId(id);
         List<MyPostResponseDto> myPostResponseDtoList = new ArrayList<>();
         for(Post post : postList){
 
