@@ -21,6 +21,6 @@ public class CommentLikeController {
     @PostMapping("/comment/like")
     public ResponseDto<?> likes(@RequestBody @Valid CommentLikeReqDto commentLikeReqDto,
                                 @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return commentLikeService.likes(userDetails, commentLikeReqDto.getCommentId());
+        return commentLikeService.likes(commentLikeReqDto.getCommentId(), userDetails);
     }
 }
