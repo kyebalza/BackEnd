@@ -1,6 +1,5 @@
 package com.sparta.clone.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sparta.clone.domain.base.BaseTimeEntity;
 import lombok.*;
 
@@ -34,6 +33,10 @@ public class Comment extends BaseTimeEntity {
         this.member = member;
         this.post = post;
         this.comment = comment;
+    }
+
+    public Comment(Long id){
+        this.id = id;
     }
 
     public boolean checkOwnerByMemberId(Long memberId){

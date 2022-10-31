@@ -1,17 +1,16 @@
 package com.sparta.clone.dto.response;
 
 import com.sparta.clone.domain.CommentLike;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CommentLikeResDto {
-    private Long commentId;
 
     private boolean likeCheck;
+    private Long commentLikeCnt;
 
-    public CommentLikeResDto(CommentLike commentLike){
 
-        this.commentId = commentLike.getComment().getId();
-        this.likeCheck = commentLike.;
-    }
 }

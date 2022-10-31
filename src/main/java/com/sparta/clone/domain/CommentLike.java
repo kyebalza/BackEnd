@@ -14,14 +14,14 @@ public class CommentLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "comment_id")
     @ManyToOne
     private Comment comment;
 
-    @JsonIgnoreProperties({"postList"}) //post -> user -> likesList -> user -> postList 무한 참조 막기 위함
-    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"commentList"}) //post -> user -> likesList -> user -> postList 무한 참조 막기 위함
+    @JoinColumn(name = "member_id")
     @ManyToOne
     private Member member;
 

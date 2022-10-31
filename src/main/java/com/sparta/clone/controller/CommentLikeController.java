@@ -6,21 +6,20 @@ import com.sparta.clone.security.user.UserDetailsImpl;
 import com.sparta.clone.service.CommentLikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@RestController
+@RequestMapping("/comment/like")
 @RequiredArgsConstructor
-@ResponseBody
 public class CommentLikeController {
 
     private final CommentLikeService commentLikeService;
 
-    @PostMapping("/comment/like")
+    @PostMapping
     public ResponseDto<?> likes(@RequestBody @Valid CommentLikeReqDto commentLikeReqDto,
-                                @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return commentLikeService.likes(commentLikeReqDto.getCommentId(), userDetails);
+                                @AuthenticationPrincipal UserDetailsImpl userDetailsImpl){
+        return commentLikeService.likes(commentLikeReqDto, userDetailsImpl.getMember().getId());
     }
 }
