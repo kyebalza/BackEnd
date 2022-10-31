@@ -33,6 +33,7 @@ public class PostService {
     private final PhotoRepository photoRepository;
 
     private final CommentRepository commentRepository;
+    private final CommentLikesRepository commentLikesRepository;
     private final PostLikesRepository postLikesRepository;
 
     private final LikesRepository likesRepository;
@@ -123,7 +124,8 @@ public class PostService {
                     AllPostResponseDto.builder()
                             .id(post.getId())
                             .content(post.getContent())
-                            .nickname(post.getMember().getUsername())
+                            .username(post.getMember().getUsername())
+                            .profileImg(post.getMember().getProfileImg())
                             .createdAt(post.getCreatedAt())
                             .modifiedAt(post.getModifiedAt())
                             .CommentCnt(CommentCnt)
@@ -145,7 +147,7 @@ public class PostService {
 
         List<Comment> commentList = commentRepository.findAllById(postId);
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
-        Long cntLike = postLikesRepository.countByPostId(postId);
+        Long likeCnt = postLikesRepository.countByPostId(postId);
         Optional<Likes> likes = postLikesRepository.findByPostIdAndMemberId(postId, memberId);
         boolean likeCheck;
         if (likes.isPresent()) {
@@ -154,11 +156,28 @@ public class PostService {
             likeCheck = false;
         }
         for (Comment comment : commentList) {
+
+            Long comment_id = comment.getId();//댓글 번호
+            Long member_id = comment.getMember().getId();//맴버 번호
+            boolean commentLikeCheck;//댓글 좋아요 여부
+
+            Long commentLikeCnt = commentLikesRepository.countByComment_Id(comment_id);//좋아요 수
+            Optional<CommentLike> commentLikes = commentLikesRepository.findByComment_IdAndMember_Id(comment_id, member_id);//좋아요 여부
+            if (commentLikes.isPresent()){
+                commentLikeCheck = true;
+            }else {
+                commentLikeCheck = false;
+            }
+
+
             commentResponseDtos.add(
                     CommentResponseDto.builder()
                             .id(comment.getId())
                             .comment(comment.getComment())
-                            .author(comment.getMember().getUsername())
+                            .profileImg(comment.getMember().getProfileImg())
+                            .username(comment.getMember().getUsername())
+                            .commentLikeCheck(commentLikeCheck)
+                            .commentLikeCnt(commentLikeCnt)
                             .createdAt(comment.getCreatedAt())
                             .modifiedAt(comment.getModifiedAt())
                             .build()
@@ -167,12 +186,13 @@ public class PostService {
         return ResponseDto.success(
                 OnePostResponseDto.builder()
                         .Id(post.getId())
-                        .nickname(post.getMember().getUsername())
+                        .username(post.getMember().getUsername())
+                        .profileImg(post.getMember().getProfileImg())
                         .content(post.getContent())
                         .postImgUrl(post.getPhotos().stream().map(Photo::getPostImgUrl).collect(Collectors.toList()))
-//                        .likeCnt(cntLike)
+                        .likeCnt(likeCnt)
                         .comments(commentResponseDtos)
-//                        .likeCheck(likeCheck)
+                        .likeCheck(likeCheck)
                         .createdAt(post.getCreatedAt())
                         .modifiedAt(post.getModifiedAt())
                         .build()
@@ -182,18 +202,75 @@ public class PostService {
     //게시글 수정
     @Transactional
     public ResponseDto<?> updatePost(Long postId, UserDetailsImpl userDetailsImpl, PostRequestDto postRequestDto) {
+        Long memberId=userDetailsImpl.getMember().getId();
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("해당 아이디를 가진 게시글이 존재하지 않습니다.")
         );
 
-        checkOwner(post, userDetailsImpl.getMember().getId()); /***로그인한 사람의 아이디를 가져오는 역활****/
+        checkOwner(post, memberId); /***로그인한 사람의 아이디를 가져오는 역활****/
 
         //2.
         post.updatePost(postRequestDto.getContent());
         //3.
         postRepository.save(post);
 
-        return ResponseDto.success(new AllPostResponseDto(post));
+
+
+        /////////////////////////////
+        //수정된 게시글 불러오기
+        Post updatePost = postRepository.findById(postId).orElseThrow();
+
+        List<Comment> commentList = commentRepository.findAllById(postId);
+        List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
+        Long likeCnt = postLikesRepository.countByPostId(postId);
+        Optional<Likes> likes = postLikesRepository.findByPostIdAndMemberId(postId, memberId);
+        boolean likeCheck;
+        if (likes.isPresent()) {
+            likeCheck = true;
+        } else {
+            likeCheck = false;
+        }
+        for (Comment comment : commentList) {
+
+            Long comment_id = comment.getId();//댓글 번호
+            Long member_id = comment.getMember().getId();//맴버 번호
+            boolean commentLikeCheck;//댓글 좋아요 여부
+
+            Long commentLikeCnt = commentLikesRepository.countByComment_Id(comment_id);//좋아요 수
+            Optional<CommentLike> commentLikes = commentLikesRepository.findByComment_IdAndMember_Id(comment_id, member_id);//좋아요 여부
+            if (commentLikes.isPresent()){
+                commentLikeCheck = true;
+            }else {
+                commentLikeCheck = false;
+            }
+
+
+            commentResponseDtos.add(
+                    CommentResponseDto.builder()
+                            .id(comment.getId())
+                            .comment(comment.getComment())
+                            .profileImg(comment.getMember().getProfileImg())
+                            .username(comment.getMember().getUsername())
+                            .commentLikeCheck(commentLikeCheck)
+                            .commentLikeCnt(commentLikeCnt)
+                            .createdAt(comment.getCreatedAt())
+                            .modifiedAt(comment.getModifiedAt())
+                            .build()
+            );
+        }
+
+        return ResponseDto.success(OnePostResponseDto.builder()
+                .Id(updatePost.getId())
+                .username(updatePost.getMember().getUsername())
+                .profileImg(updatePost.getMember().getProfileImg())
+                .content(updatePost.getContent())
+                .postImgUrl(updatePost.getPhotos().stream().map(Photo::getPostImgUrl).collect(Collectors.toList()))
+                .likeCnt(likeCnt)
+                .comments(commentResponseDtos)
+                .likeCheck(likeCheck)
+                .createdAt(updatePost.getCreatedAt())
+                .modifiedAt(updatePost.getModifiedAt())
+                .build());
     }
 
 

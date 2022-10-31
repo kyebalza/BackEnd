@@ -19,16 +19,22 @@ public class CommentResponseDto {
 
     private String comment;
 
-    private String author;
+    private String profileImg;
+    private String username;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
 
+
+    //추가
+    private boolean commentLikeCheck;
+    private Long commentLikeCnt;
+
     public CommentResponseDto(Comment comment){
         this.id = comment.getId();
         this.comment = comment.getComment();
-        this.author = comment.getMember().getUsername();
+        this.username = comment.getMember().getUsername();
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();
     }
