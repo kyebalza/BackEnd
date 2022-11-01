@@ -39,6 +39,7 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post",fetch = EAGER)
     private List<Photo> photos= new ArrayList<>();
 
+
     public void updatePost(String content) {
         this.content = content;
     }

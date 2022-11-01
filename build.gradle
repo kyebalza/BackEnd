@@ -39,8 +39,6 @@ dependencies {
 	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.2'
 
 	//redis
-	implementation 'it.ozimov:embeded-redis:0.7.2'
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
 	//websocket, sockjs, stomp
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'

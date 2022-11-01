@@ -1,4 +1,4 @@
-package com.Exception;
+package com.sparta.clone.Exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

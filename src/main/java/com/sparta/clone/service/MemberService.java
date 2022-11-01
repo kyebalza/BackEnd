@@ -1,7 +1,7 @@
 package com.sparta.clone.service;
 
-import com.Exception.ErrorCode;
-import com.Exception.GlobalException;
+import com.sparta.clone.Exception.ErrorCode;
+import com.sparta.clone.Exception.GlobalException;
 import com.sparta.clone.domain.Member;
 import com.sparta.clone.domain.RefreshToken;
 import com.sparta.clone.dto.ResponseDto;
