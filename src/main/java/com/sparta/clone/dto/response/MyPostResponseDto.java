@@ -24,6 +24,7 @@ public class MyPostResponseDto {
 
     private List<String> postImgUrl;
 
+    private String profileImg;
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;

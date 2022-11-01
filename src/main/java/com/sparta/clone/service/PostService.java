@@ -147,10 +147,9 @@ public class PostService {
 
         List<Comment> commentList = commentRepository.findAllById(postId);
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
-        Long cntLike = postLikesRepository.countByPostId(postId);
+        Long likeCnt = postLikesRepository.countByPostId(postId);
         Optional<Likes> likes = postLikesRepository.findByPostIdAndMemberId(postId, memberId);
         boolean likeCheck;
-
         if (likes.isPresent()) {
             likeCheck = true;
         } else {
@@ -191,7 +190,7 @@ public class PostService {
                         .profileImg(post.getMember().getProfileImg())
                         .content(post.getContent())
                         .postImgUrl(post.getPhotos().stream().map(Photo::getPostImgUrl).collect(Collectors.toList()))
-                        .likeCnt(cntLike)
+                        .likeCnt(likeCnt)
                         .comments(commentResponseDtos)
                         .likeCheck(likeCheck)
                         .createdAt(post.getCreatedAt())
@@ -203,11 +202,12 @@ public class PostService {
     //게시글 수정
     @Transactional
     public ResponseDto<?> updatePost(Long postId, UserDetailsImpl userDetailsImpl, PostRequestDto postRequestDto) {
+        Long memberId=userDetailsImpl.getMember().getId();
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("해당 아이디를 가진 게시글이 존재하지 않습니다.")
         );
 
-        checkOwner(post, userDetailsImpl.getMember().getId()); /***로그인한 사람의 아이디를 가져오는 역활****/
+        checkOwner(post, memberId); /***로그인한 사람의 아이디를 가져오는 역활****/
 
         //2.
         post.updatePost(postRequestDto.getContent());
@@ -223,7 +223,6 @@ public class PostService {
         List<Comment> commentList = commentRepository.findAllById(postId);
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
         Long likeCnt = postLikesRepository.countByPostId(postId);
-        Long memberId = userDetailsImpl.getMember().getId();
         Optional<Likes> likes = postLikesRepository.findByPostIdAndMemberId(postId, memberId);
         boolean likeCheck;
         if (likes.isPresent()) {
@@ -275,6 +274,25 @@ public class PostService {
     }
 
 
+//    //게시글 삭제
+//    @Transactional
+//    public ResponseDto<?> deletePost(Long postId, UserDetailsImpl userDetailsImpl){
+//        Post post = postRepository.findById(postId).orElseThrow(
+//                ()->new IllegalArgumentException("해당 아이디를 가진 게시글이 존재하지 않습니다.")
+//        );
+//
+//        checkOwner(post, userDetailsImpl.getMember().getId());
+//        //댓글 삭제
+//        commentRepository.deleteAllByPostId(postId);
+//        postLikesRepository.deleteLikesByPost(post);
+//
+//        photoRepository.deleteAllByPostId(postId);
+//
+//        //게시글 삭제
+//        postRepository.deleteById(postId);//게시물을 먼저 삭제안한이유
+//        return ResponseDto.success("게시글이 삭제되었습니다");
+//    }
+
     //게시글 삭제
     @Transactional
     public ResponseDto<?> deletePost(Long postId, UserDetailsImpl userDetailsImpl){
@@ -296,7 +314,7 @@ public class PostService {
 
 
 
-
+    //나의 게시글 불러오기
     @Transactional(readOnly = true)
     public ResponseDto<?> getMyPost(Long id){
         List<Post> postList = postRepository.findAllBymemberId(id);
@@ -324,6 +342,7 @@ public class PostService {
                             .id(post.getId())
                             .content(post.getContent())
                             .username(post.getMember().getUsername())
+                            .profileImg(post.getMember().getProfileImg())
                             .createdAt(post.getCreatedAt())
                             .modifiedAt(post.getModifiedAt())
                             .CommentCnt(CommentCnt)
@@ -338,6 +357,8 @@ public class PostService {
         }
         return ResponseDto.success(myPostResponseDtoList);
     }
+
+
     private void checkOwner(Post post, Long memberId){
         if(!post.checkOwnerByMemberId(memberId)){
             throw new IllegalArgumentException("회원님이 작성한 글이 아닙니다.");

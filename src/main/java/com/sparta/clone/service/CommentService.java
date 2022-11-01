@@ -53,26 +53,34 @@ public class CommentService {
                 ()->new IllegalArgumentException("해당 아이디를 가진 댓글이 없습니다.")
         );
 
+
         checkOwner(comment, userDetailsImpl.getMember().getId());
 
         checkPostByPostId(comment, postId);
 
+        commentLikesRepository.deleteByComment_Id(commentId);
         commentRepository.deleteById(commentId);
+
 
         List<Comment> commentList = commentRepository.findAllById(postId);
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
         for(Comment responseComment : commentList){
+
+
+
             commentResponseDtoList.add(
                     CommentResponseDto.builder()
                             .id(responseComment.getId())
+                            .profileImg(responseComment.getMember().getProfileImg())
                             .comment(responseComment.getComment())
                             .username(responseComment.getMember().getUsername())
+                            .modifiedAt(responseComment.getModifiedAt())
                             .createdAt(responseComment.getCreatedAt())
                             .build()
             );
         }
         return ResponseDto.success(
-                commentResponseDtoList
+                "댓글 삭제가 완료되었습니다."//commentResponseDtoList
         );
     }
 

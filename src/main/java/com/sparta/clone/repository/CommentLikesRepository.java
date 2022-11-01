@@ -9,8 +9,9 @@ import java.util.Optional;
 public interface CommentLikesRepository extends JpaRepository<CommentLike, Long> {
 
     //좋아요 여부 받아오기
-    Optional<CommentLike> findByComment_IdAndMember_Id(Long commnetId, Long memberId);
+    Optional<CommentLike> findByComment_IdAndMember_Id(Long commentId, Long memberId);
 
+    void deleteByComment_Id(Long commentId);
     //게시글의 좋아요 수 가져오기
     Long countByComment_Id(Long postId);
 

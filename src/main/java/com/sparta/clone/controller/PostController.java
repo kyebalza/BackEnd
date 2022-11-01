@@ -58,4 +58,12 @@ public class PostController {
                                      @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
         return postService.deletePost(postId, userDetailsImpl);
     }
+
+    //나의 게시글 불러오기
+    @GetMapping("/mypost")
+    public ResponseDto<?> getMyPost(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
+        return postService.getMyPost(userDetailsImpl.getMember().getId());
+    }
+
+
 }
