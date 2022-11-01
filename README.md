@@ -20,3 +20,7 @@
 ## 2. 트러블 슈팅
 
 //415 Unsupported Media Type
+//requesetMappingHandlerMapping
+//mysql table column 초기화 안되는 오류
+
+
