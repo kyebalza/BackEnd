@@ -1,8 +1,5 @@
 package com.sparta.clone.dto.request;
 
-import com.sparta.clone.domain.Comment;
-import com.sparta.clone.domain.CommentLike;
-import com.sparta.clone.domain.Member;
 import lombok.Data;
 
 

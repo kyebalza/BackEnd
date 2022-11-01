@@ -31,11 +31,11 @@ public class CommentLikeService {
     public ResponseDto<?> likes(CommentLikeReqDto commentLikeReqDto, Long memberId) {
         //1. postId 와 userEmail로 좋아요 여부 판단하기
         //boolean likes = likesRepository.existsByPostIdAndMemberId(postId, memberId);
-        Optional<CommentLike> commentLikes = commentLikeRepository.findByCommentIdAndMemberId(Long.parseLong(commentLikeReqDto.getCommentId()), memberId);
+        Optional<CommentLike> commentLikes = commentLikeRepository.findByCommentIdAndMemberId(commentLikeReqDto.getComment_id(), memberId);
         //Exists 메소드
         // id 만 가져오기
         Member member = getMember(memberId);
-        Comment comment = new Comment(Long.parseLong(commentLikeReqDto.getCommentId()));
+        Comment comment = new Comment(commentLikeReqDto.getComment_id());
         boolean likeCheck;
         if (commentLikes.isPresent()){
             likeCheck = false;
@@ -49,14 +49,14 @@ public class CommentLikeService {
         }else {
             likeCheck = true;
             //2-2. 없으면 등록
-            CommentLike like = new CommentLike(comment, member);
+            CommentLike like = new CommentLike(member,comment);
             commentLikeRepository.save(like);
 //            likeResult = "좋아요 등록";
         }
-        Long CommentLikeCnt = commentLikeRepository.countByCommentId(Long.parseLong(commentLikeReqDto.getCommentId()));
+        Long CommentLikeCnt = commentLikeRepository.countByCommentId(commentLikeReqDto.getComment_id());
         return ResponseDto.success(
                 CommentLikeResDto.builder()
-                        .commentLikeCnt(CommentLikeCnt)
+                        .commentlikeCnt(CommentLikeCnt)
                         .likeCheck(likeCheck)
                         .build()
         );

@@ -190,7 +190,7 @@ public class PostService {
                         .profileImg(post.getMember().getProfileImg())
                         .content(post.getContent())
                         .postImgUrl(post.getPhotos().stream().map(Photo::getPostImgUrl).collect(Collectors.toList()))
-                        .likeCnt(likeCnt)
+                        .likeCnt(cntLike)
                         .comments(commentResponseDtos)
                         .likeCheck(likeCheck)
                         .createdAt(post.getCreatedAt())
@@ -222,6 +222,7 @@ public class PostService {
         List<Comment> commentList = commentRepository.findAllById(postId);
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
         Long likeCnt = postLikesRepository.countByPostId(postId);
+        Long memberId = userDetailsImpl.getMember().getId();
         Optional<Likes> likes = postLikesRepository.findByPostIdAndMemberId(postId, memberId);
         boolean likeCheck;
         if (likes.isPresent()) {
@@ -283,7 +284,7 @@ public class PostService {
         checkOwner(post, userDetailsImpl.getMember().getId());
         //댓글 삭제
         commentRepository.deleteAllByPostId(postId);
-        postLikesRepository.deleteLikesByPost(post);
+        postLikesRepository.deleteLikesByPostId(postId);
 
         photoRepository.deleteAllByPostId(postId);
 
@@ -293,6 +294,49 @@ public class PostService {
     }
 
 
+
+
+    @Transactional(readOnly = true)
+    public ResponseDto<?> getMyPost(Long id){
+        List<Post> postList = postRepository.findAllBymemberId(id);
+        List<MyPostResponseDto> myPostResponseDtoList = new ArrayList<>();
+        for(Post post : postList){
+
+            Long postId = post.getId();//게시글 번호
+            Long memberId = post.getMember().getId();//맴버 번호
+            //좋아요
+            Long likeCnt = likesRepository.countByPostId(postId);//좋아요 수
+            Optional<Likes> likes = likesRepository.findByPostIdAndMemberId(postId, memberId);//좋아요 여부
+            boolean likeCheck;
+            if (likes.isPresent()){
+                likeCheck = true;
+            }else {
+                likeCheck = false;
+            }
+            //댓글 수
+            Long CommentCnt = commentRepository.countByPostId(postId);
+
+
+            ////////////////////////////////////////
+            MyPostResponseDto myPostResponseDto =
+                    MyPostResponseDto.builder()
+                            .id(post.getId())
+                            .content(post.getContent())
+                            .username(post.getMember().getUsername())
+                            .createdAt(post.getCreatedAt())
+                            .modifiedAt(post.getModifiedAt())
+                            .CommentCnt(CommentCnt)
+                            .likeCheck(likeCheck)
+                            .likeCnt(likeCnt)
+                            .postImgUrl(post.getPhotos()
+                                    .stream()
+                                    .map(Photo::getPostImgUrl)
+                                    .collect(Collectors.toList()))
+                            .build();
+            myPostResponseDtoList.add(myPostResponseDto);
+        }
+        return ResponseDto.success(myPostResponseDtoList);
+    }
     private void checkOwner(Post post, Long memberId){
         if(!post.checkOwnerByMemberId(memberId)){
             throw new IllegalArgumentException("회원님이 작성한 글이 아닙니다.");
