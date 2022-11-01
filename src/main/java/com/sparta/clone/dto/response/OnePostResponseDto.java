@@ -1,6 +1,5 @@
 package com.sparta.clone.dto.response;
 
-import com.sparta.clone.domain.Comment;
 import com.sparta.clone.domain.Photo;
 import com.sparta.clone.domain.Post;
 import lombok.AllArgsConstructor;

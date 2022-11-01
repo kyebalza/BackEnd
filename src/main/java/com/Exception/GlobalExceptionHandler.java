@@ -1,4 +1,4 @@
-package com.sparta.clone.Exception;
+package com.Exception;
 
 
 import com.sparta.clone.dto.ResponseDto;

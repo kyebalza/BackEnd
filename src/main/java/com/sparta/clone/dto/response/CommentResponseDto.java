@@ -1,7 +1,6 @@
 package com.sparta.clone.dto.response;
 
 import com.sparta.clone.domain.Comment;
-import jdk.jshell.Snippet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

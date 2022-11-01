@@ -10,6 +10,7 @@ import com.sparta.clone.dto.ResponseDto;
 import com.sparta.clone.dto.request.PostRequestDto;
 import com.sparta.clone.dto.response.*;
 import com.sparta.clone.repository.*;
+import com.sparta.clone.security.domain.*;
 import com.sparta.clone.security.user.UserDetailsImpl;
 import com.sparta.clone.utils.CommonUtils;
 import lombok.RequiredArgsConstructor;

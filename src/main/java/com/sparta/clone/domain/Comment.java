@@ -1,6 +1,5 @@
 package com.sparta.clone.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sparta.clone.domain.base.BaseTimeEntity;
 import lombok.*;
 

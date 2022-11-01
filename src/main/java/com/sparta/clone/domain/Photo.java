@@ -4,11 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.mapping.ToOne;
 
 import javax.persistence.*;
-import javax.swing.plaf.metal.MetalIconFactory;
-import java.util.List;
 
 @Entity
 @Builder

@@ -37,6 +37,16 @@ dependencies {
 
 	//s3
 	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.2'
+
+	//redis
+	implementation 'it.ozimov:embeded-redis:0.7.2'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+	//websocket, sockjs, stomp
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.webjars:sockjs-client:1.5.1'
+	implementation 'org.webjars:stomp-websocket:2.3.4'
+
 }
 
 tasks.named('test') {

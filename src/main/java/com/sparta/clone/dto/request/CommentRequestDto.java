@@ -4,7 +4,6 @@ import com.sparta.clone.domain.Comment;
 import com.sparta.clone.domain.Member;
 import com.sparta.clone.domain.Post;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class CommentRequestDto {
