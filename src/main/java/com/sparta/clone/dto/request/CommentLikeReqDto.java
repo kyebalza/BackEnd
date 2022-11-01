@@ -1,8 +1,5 @@
 package com.sparta.clone.dto.request;
 
-import com.sparta.clone.domain.Comment;
-import com.sparta.clone.domain.CommentLike;
-import com.sparta.clone.domain.Member;
 import lombok.Data;
 
 
@@ -10,9 +7,11 @@ import lombok.Data;
 public class CommentLikeReqDto {
 
     private Long comment_id;
-    private Long commentLikeCnt;
 
-    public CommentLike toEntity(Member member, Comment comment, Boolean likeCheck){
-        return new CommentLike(member, comment, likeCheck, commentLikeCnt);
-    }
+    //??
+//    private Long commentLikeCnt;
+
+//    public CommentLike toEntity(Member member, Comment comment){
+//        return new CommentLike(member,comment);
+//    }
 }

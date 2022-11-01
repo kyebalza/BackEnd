@@ -15,13 +15,10 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AllPostResponseDto {
-
+public class MyPostResponseDto {
     private Long id;
 
     private String username;
-
-    private String profileImg;
 
     private String content;
 
@@ -36,8 +33,8 @@ public class AllPostResponseDto {
     private Long likeCnt;
     private boolean likeCheck;
     private Long CommentCnt;
-    //Post타입에서 PostResDto타입으로 가져올꺼기 때문에  Post post를 인자로 받아준다.
-    public AllPostResponseDto(Post post){
+
+    public MyPostResponseDto(Post post){
         this.id = post.getId();
         this.username = post.getMember().getUsername();
         this.content = post.getContent();

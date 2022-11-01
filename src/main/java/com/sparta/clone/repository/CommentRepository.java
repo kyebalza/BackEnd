@@ -12,6 +12,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("select c from Comment c where c.post.id = :postId")
     List<Comment> findAllById(@Param("postId") Long postId);
 
+
     //댓글 수 받아오기
     Long countByPostId(Long postId);
     void deleteAllByPostId(Long postId);

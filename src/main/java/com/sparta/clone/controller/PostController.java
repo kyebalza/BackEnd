@@ -38,14 +38,14 @@ public class PostController {
     }
     //상세 게시글 조회
     @GetMapping("post/{postId}")
-    public ResponseDto<?> getPostOne(@PathVariable Long postId,
+    public ResponseDto<?> getPostOne(@PathVariable("postId") Long postId,
                                      @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
         return postService.getPostOne(postId, userDetailsImpl.getMember().getId());
     }
 
     //게시글 수정
     @PutMapping("/post/{postId}")
-    public ResponseDto<?>updatePost(@PathVariable Long postId,
+    public ResponseDto<?>updatePost(@PathVariable("postId") Long postId,
                                     @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
                                     @RequestBody PostRequestDto postRequestDto){
         return postService.updatePost(postId, userDetailsImpl, postRequestDto);
@@ -54,7 +54,7 @@ public class PostController {
 
     //게시글 삭제
     @DeleteMapping("/post/{postId}")
-    public ResponseDto<?> deletePost(@PathVariable Long postId,
+    public ResponseDto<?> deletePost(@PathVariable("postId") Long postId,
                                      @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
         return postService.deletePost(postId, userDetailsImpl);
     }
