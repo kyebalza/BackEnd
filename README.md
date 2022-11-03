@@ -47,17 +47,17 @@
 </br>문제 원인 : DB를 공유하고 있을 때 내가 프로그램을 종료하더라도 다른 쪽에서 종료하지 않고 실행 중이면 table 이 초기화 되지 않음
 </br>해결 방법 : 같은 DB를 공유 중이 프로그램을 모두 종료하니 table 이 초기화 됨
 
-###5. (특정필드에 의존주입이 실패했던 오류)
+### 5. (특정필드에 의존주입이 실패했던 오류)
 문제 상황 : 프로젝트를 실행헀을 때 [UnsatisfiedDependencyException/BeanCreationException error]
 문제 원인 : 파일을 실행했을때 특정 필드에 의존주입이 실패했기 때문임
 해결 방법 : 단순 어노테이션 오류였음 @Service어노테이션을 넣지 않아서 생긴 문제였음
 
-###6. (나의 게시글을 조회 기능)
+### 6. (나의 게시글을 조회 기능)
 문제 상황 : Postman에서 실행을 했을때 나의 게시글 조회를 했는데 전체 게시글 조회가 되는 상황
 문제 원인 : mypostRepository에서 jpa가 findbypostId중복되서 나오는 단순 오타오류 
 해결 방법 :  jpa를 findbyMemberId로 바꿔주고 해당하는 QuaryDSL문을  추가해줘서 해결했습니다
 
-###7. (좋아요 조회기능 오류)
+### 7. (좋아요 조회기능 오류)
 문제 상황 : 좋아요 API를 Postman으로 실행했을때 boolean type으로 true실행이 되지만 전체조회를 했을때 likecheck가 false로 뜨는 점
 문제 원인 : PostService에서 ResponseDto에 좋아요 기능을 넣지않아 생겼음
 해결 방법 : PostService에서 DB에 저장되어있는 likeCheck를 ResponseDto로 넣어주면서 해결
