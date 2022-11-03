@@ -55,7 +55,7 @@
 ### 6. (나의 게시글을 조회 기능)
 문제 상황 : Postman에서 실행을 했을때 나의 게시글 조회를 했는데 전체 게시글 조회가 되는 상황
 </br>문제 원인 : mypostRepository에서 jpa가 findbypostId중복되서 나오는 단순 오타오류 
-</br>해결 방법 :  jpa를 findbyMemberId로 바꿔주고 해당하는 QuaryDSL문을  추가해줘서 해결했습니다
+</br>해결 방법 :  jpa를 findbyMemberId로 바꿔주고 해당하는 문을  추가해줘서 해결했습니다
 
 ### 7. (좋아요 조회기능 오류)
 문제 상황 : 좋아요 API를 Postman으로 실행했을때 boolean type으로 true실행이 되지만 전체조회를 했을때 likecheck가 false로 뜨는 점
