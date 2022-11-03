@@ -29,18 +29,18 @@
  - 게시글을 삭제 했을때 게시글은 삭제가 되었지만 DB에서 게시글좋아요 및 댓글이 삭제되지 않았던 오류
 
 
-1. (이미지 타입 예외)
+### 1. (이미지 타입 예외)
 문제 상황 : postman으로 사진을 전송하는데 '415 Unsupported Media Type' 이라는 예외 상황을 마주침
 문제 원인 : 'Content Type'을 설정해 주지 않음
 해결 방법 : 'Content Type'을 application/json 으로 바꿔주니 정상적으로 동작됨.
 
-2. (pull 받는 과정에서의 오류)
+### 2. (pull 받는 과정에서의 오류)
 문제 상황 : 다른 팀원의 수정된 코드를 테스트를 위해 pull를 받고 프로그램을 실행 시켰는데 requesetMappingHandlerMapping
 		이라는 오류가 뜸
 문제 원인 : 수정내용을 pull 받는 과정에서 중복된 url을 사용하여 mapping을 할 수 없다는 오류가 뜸
 해결 방법 : Controller에 중복된 요청 하나를 제거해주니 문제없이 해결됨.
 
-3. (파일 업로드 예외)
+### 3. (파일 업로드 예외)
 문제 상황 : 새로 업데이트 된 소스를 테스트 해보기 위해 게시글의 파일업로드를 하는 과정에서 java.lang.NullPointerException: null
 		이라는 예외가 뜸
 문제 원인 : 
