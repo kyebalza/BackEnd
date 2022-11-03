@@ -1,8 +1,11 @@
 package com.sparta.clone.domain.chat;
 
 
-import com.sparta.clone.dto.request.ChatMessageRequestDto;
+import com.sparta.clone.domain.Member;
+import com.sparta.clone.domain.base.BaseTimeEntity;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -11,56 +14,35 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatMessage {
-
-    public enum MessageType {
-        STAMP, TALK, RESULT, ISSUE
-    }
+public class ChatMessage extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Long id;
 
-    @Column
-    private MessageType type;
+    @Column(nullable = false)
+    private String content;
 
-    @Column
-    private String roomId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id", nullable = false)
+    private ChatRoom room;
 
-    // Redis MessageListener 로 웹소켓을 통해 바로채팅방에 메시지를 전달해주기 위한 값을 따로 설정
-    @Column
-    private String username;
-
-    @Column
-    private String sender;
-
-    @Column
-    private String message;
+    //송신자 publisher
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
 
-    @Column
-    private String createdAt;
+    //수신자 subscriber
 
-    @Builder
-    public ChatMessage(ChatMessageRequestDto chatMessageRequestDto, String createdAt){
-        this.type = chatMessageRequestDto.getType();
-        this.roomId = chatMessageRequestDto.getRoomId();
-        this.username = chatMessageRequestDto.getUsername();
-        this.sender = chatMessageRequestDto.getSender();
-        this.message = chatMessageRequestDto.getMessage();
-        this.createdAt = createdAt;
+    @Column(nullable = false)
+    private String subUsername;
+
+    public ChatMessage(String content, ChatRoom room, Member member, String subUsername) {
+        this.content = content;
+        this.room = room;
+        this.member = member;
+        this.subUsername = subUsername;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
+

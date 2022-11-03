@@ -37,7 +37,7 @@ public class PostController {
         return new ResponseDto<>(true,resDtos,null);
     }
     //상세 게시글 조회
-    @GetMapping("post/{postId}")
+    @GetMapping("/post/{postId}")
     public ResponseDto<?> getPostOne(@PathVariable("postId") Long postId,
                                      @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
         return postService.getPostOne(postId, userDetailsImpl.getMember().getId());
@@ -64,6 +64,5 @@ public class PostController {
     public ResponseDto<?> getMyPost(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
         return postService.getMyPost(userDetailsImpl.getMember().getId());
     }
-
 
 }

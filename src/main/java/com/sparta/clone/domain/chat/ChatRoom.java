@@ -5,6 +5,7 @@ import com.sparta.clone.domain.base.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Setter
@@ -16,18 +17,17 @@ import java.util.List;
 public class ChatRoom extends BaseTimeEntity {
 
     @Id
-    @Column(name = "chat_room_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String chatRoomName;
+    @NotBlank
+    private String subUsername;
 
+    @NotBlank
+    private String username;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    List<ChatRoomMember> member;
-
-    public ChatRoom(String name){
-        this.chatRoomName = name;
+    public ChatRoom(String subUsername, String username){
+        this.subUsername = subUsername;
+        this.username = username;
     }
 }

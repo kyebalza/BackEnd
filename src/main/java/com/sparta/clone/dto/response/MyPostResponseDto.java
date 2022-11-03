@@ -35,8 +35,8 @@ public class MyPostResponseDto {
     private boolean likeCheck;
     private Long CommentCnt;
 
-    public MyPostResponseDto(Post post){
-        this.id = post.getId();
+    public MyPostResponseDto(MyPostResponseDto mprd, Post post){
+        mprd.id = post.getId();
         this.username = post.getMember().getUsername();
         this.content = post.getContent();
         this.postImgUrl=post.getPhotos()

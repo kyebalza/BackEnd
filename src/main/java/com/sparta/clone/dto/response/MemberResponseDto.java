@@ -16,4 +16,13 @@ public class MemberResponseDto {
     private String profileImg;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AllRoomResponseDto {
+        private Long id;
+        private String subUsername;
+    }
+
 }

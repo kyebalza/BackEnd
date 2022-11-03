@@ -38,6 +38,8 @@ dependencies {
 	//s3
 	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.2'
 
+	//querydsl
+	implementation group: 'com.querydsl', name: 'querydsl-jpa', version: '5.0.0'
 	//redis
 
 	//websocket, sockjs, stomp
