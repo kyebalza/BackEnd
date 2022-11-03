@@ -16,6 +16,7 @@
 - Validation
 - Spring Data JPA
 - Spring Boot Dev Tools
+- WebSocket
 
 ## 2. 트러블 슈팅
 
