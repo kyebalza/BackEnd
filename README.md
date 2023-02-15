@@ -1,5 +1,18 @@
-# 0. BackClone
+# 인스타그램 클론코딩 프로젝트입니다.
 
+## 주요기능
+- 게시글
+ - 게시글 CRUD
+ - 사진등록(AWS S3 사용)
+ - 좋아요 등록, 취소
+ - 댓글 CRUD
+ 
+ 
+- 회원
+ - 로그인(JWT, Spring Security)
+ - 회원가입(정규식)
+ - 팔로우 기능
+ 
 ## ERD
 
 ![클론코딩 (1)](https://user-images.githubusercontent.com/95573777/218987113-2dbc05f4-972e-4799-8f38-77377711e97c.png)
