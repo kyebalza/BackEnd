@@ -35,7 +35,7 @@
 - Spring Boot Dev Tools
 - WebSocket
 
-## 2. 트러블 슈팅
+## 트러블 슈팅
 
  - 나의 게시글에서 내가 게시한 글만 받아올때 전체조회 기능만 있는 오류
  - 게시글 좋아요 기능을 했을때 해당하는 postman에서 결과는 likeCheck가 true가 뜨지만 전체조회를하면 false로 결과값이 바뀌지 않는 오류
