@@ -2,16 +2,16 @@
 
 ## 주요기능
 - 게시글
- - 게시글 CRUD
- - 사진등록(AWS S3 사용)
- - 좋아요 등록, 취소
- - 댓글 CRUD
+  - 게시글 CRUD
+  - 사진등록(AWS S3 사용)
+  - 좋아요 등록, 취소
+  - 댓글 CRUD
  
  
 - 회원
- - 로그인(JWT, Spring Security)
- - 회원가입(정규식)
- - 팔로우 기능
+  - 로그인(JWT, Spring Security)
+  - 회원가입(정규식)
+  - 팔로우 기능
  
 ## ERD
 
